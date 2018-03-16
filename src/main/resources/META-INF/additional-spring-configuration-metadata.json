@@ -1,0 +1,35 @@
+{
+	"groups": [],
+	"properties": [
+		{
+			"name": "embedded.elasticsearch.enabled",
+			"type": "java.lang.Boolean",
+			"description": "Enables/Disables container startup.",
+			"defaultValue": "true"
+		},
+		{
+			"name": "embedded.elasticsearch.startup-timeout",
+			"description": "Time to wait for a sucessful started container",
+			"type": "java.lang.Integer",
+			"defaultValue": "30"
+		},
+		{
+			"name": "embedded.elasticsearch.docker-image",
+			"type": "java.lang.String",
+			"description": "Docker-image",
+			"defaultValue": "docker.elastic.co/elasticsearch/elasticsearch:5.6.8"
+		},
+		{
+			"name": "embedded.elasticsearch.http-port",
+			"description": "Http-Port",
+			"type": "java.lang.Integer",
+			"defaultValue": "5672"
+		},
+		{
+			"name": "embedded.elasticsearch.transport-port",
+			"description": "Transport-Port",
+			"type": "java.lang.Integer",
+			"defaultValue": "15672"
+		}
+	]
+}
