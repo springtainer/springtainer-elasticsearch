@@ -1,5 +1,5 @@
-springboot-testcontainers-elasticsearch
-=======================================
+springboot-testcontainer-elasticsearch
+======================================
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.avides.springboot.testcontainer/springboot-testcontainer-elasticsearch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.avides.springboot.testcontainer/springboot-testcontainer-elasticsearch)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/xxx)](https://www.codacy.com/app/springboot-testcontainer/springboot-testcontainer-elasticsearch)
@@ -11,7 +11,7 @@ springboot-testcontainers-elasticsearch
 <dependency>
 	<groupId>com.avides.springboot.testcontainer</groupId>
 	<artifactId>springboot-testcontainer-elasticsearch</artifactId>
-	<version>0.1.0-RC1</version>
+	<version>0.1.0-RC2</version>
 	<scope>test</scope>
 </dependency>
 ```
