@@ -13,7 +13,7 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DockerClientBuilder;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = { "embedded.container.elasticsearch.docker-image=docker.elastic.co/elasticsearch/elasticsearch:5.6.0", "spring.data.elasticsearch.cluster-nodes=${embedded.container.elasticsearch.host}:${embedded.container.elasticsearch.transport-port}", "spring.data.elasticsearch.properties.client.transport.ignore_cluster_name=true" })
+@SpringBootTest(properties = { "spring.data.elasticsearch.cluster-nodes=${embedded.container.elasticsearch.host}:${embedded.container.elasticsearch.transport-port}", "spring.data.elasticsearch.properties.client.transport.ignore_cluster_name=true" })
 @DirtiesContext
 public abstract class AbstractIT
 {
