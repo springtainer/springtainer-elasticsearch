@@ -66,6 +66,7 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
             return provided;
         }
 
+        @SuppressWarnings("resource")
         @SneakyThrows
         @Override
         protected boolean isContainerReady(ElasticsearchProperties properties)
