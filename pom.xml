@@ -32,6 +32,7 @@
     <!-- Other -->
     <spring.version>5.0.7.RELEASE</spring.version>
     <spring-boot.version>2.0.3.RELEASE</spring-boot.version>
+    <elasticsearch.version>5.6.10</elasticsearch.version>
   </properties>
 
   <repositories>
@@ -65,7 +66,38 @@
       <artifactId>spring-data-elasticsearch</artifactId>
       <version>3.0.8.RELEASE</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.elasticsearch</groupId>
+          <artifactId>elasticsearch</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.elasticsearch.client</groupId>
+          <artifactId>transport</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.elasticsearch.plugin</groupId>
+          <artifactId>transport-netty4-client</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+    <!-- Fix conflicts between spring-boot and spring-data (es and netty-differences) -->
+    <dependency>
+      <groupId>org.elasticsearch.client</groupId>
+      <artifactId>transport</artifactId>
+      <version>${elasticsearch.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.elasticsearch.plugin</groupId>
+      <artifactId>transport-netty4-client</artifactId>
+      <version>${elasticsearch.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.elasticsearch.plugin</groupId>
+      <artifactId>transport-netty3-client</artifactId>
+      <version>${elasticsearch.version}</version>
+    </dependency>
+
 
     <!-- Testing -->
     <dependency>
