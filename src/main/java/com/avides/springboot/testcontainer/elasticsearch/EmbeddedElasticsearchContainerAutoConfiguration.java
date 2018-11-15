@@ -2,17 +2,14 @@ package com.avides.springboot.testcontainer.elasticsearch;
 
 import static com.avides.springboot.testcontainer.elasticsearch.ElasticsearchProperties.BEAN_NAME;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.elasticsearch.client.transport.NoNodeAvailableException;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -71,27 +68,17 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
             return provided;
         }
 
-        @SuppressWarnings("resource")
         @SneakyThrows
         @Override
         protected boolean isContainerReady(ElasticsearchProperties properties)
         {
-            Settings settings = Settings.builder()
-                    .put("client.transport.ignore_cluster_name", true)
-                    .build();
-
-            try (TransportClient client = new PreBuiltTransportClient(settings)
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress
-                            .getByName(getContainerHost()), getContainerPort(properties.getTransportPort()))))
+            try
             {
-                client.admin()
-                        .cluster()
-                        .prepareHealth()
-                        .setWaitForYellowStatus()
-                        .get();
+                RestClient restClient = RestClient.builder(new HttpHost(getContainerHost(), getContainerPort(properties.getHttpPort()), "http")).build();
+                restClient.performRequest("GET", "/", Collections.singletonMap("pretty", "true"));
                 return true;
             }
-            catch (NoNodeAvailableException e)
+            catch (Exception e)
             {
                 Thread.sleep(100);
                 return false;
