@@ -5,7 +5,7 @@
   <name>springboot-testcontainer-elasticsearch</name>
   <description>Elasticsearch test-container</description>
   <url>https://github.com/springboot-testcontainer/springboot-testcontainer-elasticsearch</url>
-  <version>0.1.0-RC8</version>
+  <version>0.1.0-RC9</version>
 
   <properties>
     <!-- System -->
@@ -29,11 +29,8 @@
     <github-release-plugin.version>1.3.0</github-release-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <!-- Spring -->
-    <spring.version>5.0.10.RELEASE</spring.version>
-    <spring-boot.version>2.0.6.RELEASE</spring-boot.version>
-    <!-- Other -->
-    <spring-data-elasticsearch.version>3.0.11.RELEASE</spring-data-elasticsearch.version>
-    <elasticsearch.version>5.6.12</elasticsearch.version>
+    <spring.version>5.1.2.RELEASE</spring.version>
+    <spring-boot.version>2.1.0.RELEASE</spring-boot.version>
   </properties>
 
   <repositories>
@@ -65,38 +62,8 @@
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-elasticsearch</artifactId>
-      <version>${spring-data-elasticsearch.version}</version>
+      <version>3.1.2.RELEASE</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.elasticsearch</groupId>
-          <artifactId>elasticsearch</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.elasticsearch.client</groupId>
-          <artifactId>transport</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.elasticsearch.plugin</groupId>
-          <artifactId>transport-netty4-client</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <!-- Fix conflicts between spring-boot and spring-data (es and netty-differences) -->
-    <dependency>
-      <groupId>org.elasticsearch.client</groupId>
-      <artifactId>transport</artifactId>
-      <version>${elasticsearch.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.elasticsearch.plugin</groupId>
-      <artifactId>transport-netty4-client</artifactId>
-      <version>${elasticsearch.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.elasticsearch.plugin</groupId>
-      <artifactId>transport-netty3-client</artifactId>
-      <version>${elasticsearch.version}</version>
     </dependency>
 
     <!-- Testing -->
