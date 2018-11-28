@@ -145,7 +145,7 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
-        <configuration>exists-maven-plugin
+        <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
           <outputEncoding>UTF-8</outputEncoding>
