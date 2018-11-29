@@ -11,7 +11,7 @@ springboot-testcontainer-elasticsearch
 <dependency>
 	<groupId>com.avides.springboot.testcontainer</groupId>
 	<artifactId>springboot-testcontainer-elasticsearch</artifactId>
-	<version>0.1.0-RC8</version>
+	<version>0.1.0-RC9</version>
 	<scope>test</scope>
 </dependency>
 ```
@@ -20,7 +20,7 @@ springboot-testcontainer-elasticsearch
 Properties consumed (in `bootstrap.properties`):
 - `embedded.container.elasticsearch.enabled` (default is `true`)
 - `embedded.container.elasticsearch.startup-timeout` (default is `30`)
-- `embedded.container.elasticsearch.docker-image` (default is `docker.elastic.co/elasticsearch/elasticsearch:5.6.12`)
+- `embedded.container.elasticsearch.docker-image` (default is `docker.elastic.co/elasticsearch/elasticsearch:6.5.1`)
 - `embedded.container.elasticsearch.http-port` (default is `9200`)
 - `embedded.container.elasticsearch.transport-host` (default is `9300`)
 
