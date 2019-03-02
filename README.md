@@ -11,7 +11,7 @@ springboot-testcontainer-elasticsearch
 <dependency>
 	<groupId>com.avides.springboot.testcontainer</groupId>
 	<artifactId>springboot-testcontainer-elasticsearch</artifactId>
-	<version>0.1.0-RC11</version>
+	<version>0.1.0-RC12</version>
 	<scope>test</scope>
 </dependency>
 ```
