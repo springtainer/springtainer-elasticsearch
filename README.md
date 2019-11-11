@@ -1,17 +1,18 @@
-springboot-testcontainer-elasticsearch
-======================================
+# springboot-testcontainer-elasticsearch
 
 [![Maven Central](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/com/avides/springboot/testcontainer/springboot-testcontainer-elasticsearch/maven-metadata.xml.svg)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.avides.springboot.testcontainer%22%20AND%20a%3A%22springboot-testcontainer-elasticsearch%22)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/93c723ba5a204c5ea56ff9e19aa74d22)](https://www.codacy.com/app/avides-builds/springboot-testcontainer-elasticsearch)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/93c723ba5a204c5ea56ff9e19aa74d22)](https://www.codacy.com/app/avides-builds/springboot-testcontainer-elasticsearch)
-[![Build Status](https://travis-ci.org/springboot-testcontainer/springboot-testcontainer-elasticsearch.svg?branch=master)](https://travis-ci.org/springboot-testcontainer/springboot-testcontainer-elasticsearch)
+[![Build](https://github.com/springboot-testcontainer/springboot-testcontainer-elasticsearch/workflows/release/badge.svg)](https://github.com/springboot-testcontainer/springboot-testcontainer-elasticsearch/actions)
+[![Nightly build](https://github.com/springboot-testcontainer/springboot-testcontainer-elasticsearch/workflows/nightly/badge.svg)](https://github.com/springboot-testcontainer/springboot-testcontainer-elasticsearch/actions)
+[![Coverage report](https://sonarcloud.io/api/project_badges/measure?project=springboot-testcontainer_springboot-testcontainer-elasticsearch&metric=coverage)](https://sonarcloud.io/dashboard?id=springboot-testcontainer_springboot-testcontainer-elasticsearch)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=springboot-testcontainer_springboot-testcontainer-elasticsearch&metric=alert_status)](https://sonarcloud.io/dashboard?id=springboot-testcontainer_springboot-testcontainer-elasticsearch)
+[![Technical dept](https://sonarcloud.io/api/project_badges/measure?project=springboot-testcontainer_springboot-testcontainer-elasticsearch&metric=sqale_index)](https://sonarcloud.io/dashboard?id=springboot-testcontainer_springboot-testcontainer-elasticsearch)
 
 ### Dependency
 ```xml
 <dependency>
 	<groupId>com.avides.springboot.testcontainer</groupId>
 	<artifactId>springboot-testcontainer-elasticsearch</artifactId>
-	<version>0.1.0-RC12</version>
+	<version>1.0.0-RC1</version>
 	<scope>test</scope>
 </dependency>
 ```
@@ -20,7 +21,7 @@ springboot-testcontainer-elasticsearch
 Properties consumed (in `bootstrap.properties`):
 - `embedded.container.elasticsearch.enabled` (default is `true`)
 - `embedded.container.elasticsearch.startup-timeout` (default is `30`)
-- `embedded.container.elasticsearch.docker-image` (default is `docker.elastic.co/elasticsearch/elasticsearch:6.5.4`)
+- `embedded.container.elasticsearch.docker-image` (default is `docker.elastic.co/elasticsearch/elasticsearch:6.8.4`)
 - `embedded.container.elasticsearch.http-port` (default is `9200`)
 - `embedded.container.elasticsearch.transport-host` (default is `9300`)
 
