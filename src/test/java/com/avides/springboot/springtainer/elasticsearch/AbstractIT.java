@@ -1,4 +1,4 @@
-package com.avides.springboot.testcontainer.elasticsearch;
+package com.avides.springboot.springtainer.elasticsearch;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.avides.springboot.testcontainer.elasticsearch;
+package com.avides.springboot.springtainer.elasticsearch;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;

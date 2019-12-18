@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.avides.springboot.testcontainer</groupId>
-  <artifactId>springboot-testcontainer-elasticsearch</artifactId>
-  <version>1.0.0-RC2</version>
+  <groupId>com.avides.springboot.springtainer</groupId>
+  <artifactId>springtainer-elasticsearch</artifactId>
+  <version>1.0.0</version>
 
-  <name>springboot-testcontainer-elasticsearch</name>
+  <name>springtainer-elasticsearch</name>
   <description>Elasticsearch test-container</description>
-  <url>https://github.com/springboot-testcontainer/springboot-testcontainer-elasticsearch</url>
+  <url>https://github.com/springtainer/springtainer-elasticsearch</url>
   <licenses>
     <license>
       <name>MIT License</name>
@@ -23,9 +23,9 @@
   </developers>
 
   <scm>
-    <url>https://github.com/springboot-testcontainer/springboot-testcontainer-elasticsearch</url>
-    <connection>scm:git:https://github.com/springboot-testcontainer/springboot-testcontainer-elasticsearch.git</connection>
-    <developerConnection>scm:git:https://github.com/springboot-testcontainer/springboot-testcontainer-elasticsearch.git</developerConnection>
+    <url>https://github.com/springtainer/springtainer-elasticsearch</url>
+    <connection>scm:git:https://github.com/springtainer/springtainer-elasticsearch.git</connection>
+    <developerConnection>scm:git:https://github.com/springtainer/springtainer-elasticsearch.git</developerConnection>
   </scm>
 
   <properties>
@@ -55,7 +55,7 @@
     <spring.version>5.2.1.RELEASE</spring.version>
     <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
     <!-- Other -->
-    <springboot-testcontainer-common.version>1.0.0-RC2</springboot-testcontainer-common.version>
+    <springtainer-common.version>1.0.0</springtainer-common.version>
   </properties>
 
   <dependencies>
@@ -67,9 +67,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.avides.springboot.testcontainer</groupId>
-      <artifactId>springboot-testcontainer-common</artifactId>
-      <version>${springboot-testcontainer-common.version}</version>
+      <groupId>com.avides.springboot.springtainer</groupId>
+      <artifactId>springtainer-common</artifactId>
+      <version>${springtainer-common.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
