@@ -1,2 +1,2 @@
 org.springframework.cloud.bootstrap.BootstrapConfiguration=\
-com.avides.springboot.testcontainer.elasticsearch.EmbeddedElasticsearchContainerAutoConfiguration
+com.avides.springboot.springtainer.elasticsearch.EmbeddedElasticsearchContainerAutoConfiguration
