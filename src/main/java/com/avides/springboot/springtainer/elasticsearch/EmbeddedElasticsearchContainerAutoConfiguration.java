@@ -3,12 +3,12 @@ package com.avides.springboot.springtainer.elasticsearch;
 import static com.avides.springboot.springtainer.elasticsearch.ElasticsearchProperties.BEAN_NAME;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpHost;
+import org.elasticsearch.client.Request;
 import org.elasticsearch.client.RestClient;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -75,7 +75,9 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
             try
             {
                 RestClient restClient = RestClient.builder(new HttpHost(getContainerHost(), getContainerPort(properties.getHttpPort()), "http")).build();
-                restClient.performRequest("GET", "/", Collections.singletonMap("pretty", "true"));
+                var request = new Request("GET", "/");
+                request.addParameter("pretty", "true");
+                restClient.performRequest(request);
                 return true;
             }
             catch (Exception e)

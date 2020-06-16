@@ -42,19 +42,14 @@ public class EmbeddedElasticsearchContainerAutoConfigurationIT extends AbstractI
         IndexQuery indexQuery = new IndexQuery();
         indexQuery.setId("key1");
         indexQuery.setObject(new DummyDocument("key1", "value1"));
-        indexQuery.setIndexName("test");
-        indexQuery.setType("test");
-        index(indexQuery);
+        index(indexQuery, elasticsearchTemplate.getIndexCoordinatesFor(DummyDocument.class));
 
-        GetQuery getQuery = new GetQuery();
-        getQuery.setId("key1");
+        GetQuery getQuery = new GetQuery("key1");
         assertEquals("value1", elasticsearchTemplate.queryForObject(getQuery, DummyDocument.class).getValue());
 
         DeleteQuery deleteQuery = new DeleteQuery();
         deleteQuery.setQuery(QueryBuilders.termQuery("key", "key1"));
-        deleteQuery.setIndex("test");
-        deleteQuery.setType("test");
-        elasticsearchTemplate.delete(deleteQuery);
+        elasticsearchTemplate.delete(deleteQuery, elasticsearchTemplate.getIndexCoordinatesFor(DummyDocument.class));
 
         assertNull(elasticsearchTemplate.queryForObject(getQuery, DummyDocument.class));
     }
@@ -66,7 +61,7 @@ public class EmbeddedElasticsearchContainerAutoConfigurationIT extends AbstractI
         // nothing
     }
 
-    @Document(indexName = "test", type = "test")
+    @Document(indexName = "test")
     @NoArgsConstructor
     @AllArgsConstructor
     @Setter
