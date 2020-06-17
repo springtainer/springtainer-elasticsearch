@@ -74,13 +74,14 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
         {
             try
             {
-                RestClient restClient = RestClient.builder(new HttpHost(getContainerHost(), getContainerPort(properties.getHttpPort()), "http")).build();
+                var restClient = RestClient.builder(new HttpHost(getContainerHost(), getContainerPort(properties.getHttpPort()))).build();
+
                 var request = new Request("GET", "/");
                 request.addParameter("pretty", "true");
                 restClient.performRequest(request);
                 return true;
             }
-            catch (Exception e)
+            catch (@SuppressWarnings("unused") Exception e)
             {
                 Thread.sleep(100);
                 return false;

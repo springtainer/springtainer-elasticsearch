@@ -1,17 +1,13 @@
 package com.avides.springboot.springtainer.elasticsearch;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.Test;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.core.query.DeleteQuery;
-import org.springframework.data.elasticsearch.core.query.GetQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 
 import lombok.AllArgsConstructor;
@@ -39,19 +35,25 @@ public class EmbeddedElasticsearchContainerAutoConfigurationIT extends AbstractI
     @Test
     public void testCrud()
     {
-        IndexQuery indexQuery = new IndexQuery();
+        // create
+        var indexQuery = new IndexQuery();
         indexQuery.setId("key1");
         indexQuery.setObject(new DummyDocument("key1", "value1"));
-        index(indexQuery, elasticsearchTemplate.getIndexCoordinatesFor(DummyDocument.class));
+        index(indexQuery, elasticsearchRestTemplate.getIndexCoordinatesFor(DummyDocument.class));
 
-        GetQuery getQuery = new GetQuery("key1");
-        assertEquals("value1", elasticsearchTemplate.queryForObject(getQuery, DummyDocument.class).getValue());
+        // read
+        assertThat(elasticsearchRestTemplate.get("key1", DummyDocument.class).getValue()).isEqualTo("value1");
 
-        DeleteQuery deleteQuery = new DeleteQuery();
-        deleteQuery.setQuery(QueryBuilders.termQuery("key", "key1"));
-        elasticsearchTemplate.delete(deleteQuery, elasticsearchTemplate.getIndexCoordinatesFor(DummyDocument.class));
+        // update
+        var updateQuery = new IndexQuery();
+        updateQuery.setId("key1");
+        updateQuery.setObject(new DummyDocument("key1", "value2"));
+        index(updateQuery, elasticsearchRestTemplate.getIndexCoordinatesFor(DummyDocument.class));
+        assertThat(elasticsearchRestTemplate.get("key1", DummyDocument.class).getValue()).isEqualTo("value2");
 
-        assertNull(elasticsearchTemplate.queryForObject(getQuery, DummyDocument.class));
+        // delete
+        elasticsearchRestTemplate.delete("key1", elasticsearchRestTemplate.getIndexCoordinatesFor(DummyDocument.class));
+        assertNull(elasticsearchRestTemplate.get("key1", DummyDocument.class));
     }
 
     @Configuration

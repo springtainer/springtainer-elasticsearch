@@ -21,7 +21,7 @@
 Properties consumed (in `bootstrap.properties`):
 - `embedded.container.elasticsearch.enabled` (default is `true`)
 - `embedded.container.elasticsearch.startup-timeout` (default is `30`)
-- `embedded.container.elasticsearch.docker-image` (default is `docker.elastic.co/elasticsearch/elasticsearch:6.8.10`)
+- `embedded.container.elasticsearch.docker-image` (default is `docker.elastic.co/elasticsearch/elasticsearch:7.6.2`)
 - `embedded.container.elasticsearch.http-port` (default is `9200`)
 - `embedded.container.elasticsearch.transport-host` (default is `9300`)
 

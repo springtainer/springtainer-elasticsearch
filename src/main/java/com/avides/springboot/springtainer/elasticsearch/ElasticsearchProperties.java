@@ -22,6 +22,6 @@ public class ElasticsearchProperties extends AbstractEmbeddedContainerProperties
 
     public ElasticsearchProperties()
     {
-        setDockerImage("docker.elastic.co/elasticsearch/elasticsearch:6.8.10");
+        setDockerImage("docker.elastic.co/elasticsearch/elasticsearch:7.6.2");
     }
 }
