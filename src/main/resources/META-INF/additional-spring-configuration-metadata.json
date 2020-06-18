@@ -17,19 +17,19 @@
 			"name": "embedded.container.elasticsearch.docker-image",
 			"type": "java.lang.String",
 			"description": "Docker-image",
-			"defaultValue": "docker.elastic.co/elasticsearch/elasticsearch:6.8.4"
+			"defaultValue": "docker.elastic.co/elasticsearch/elasticsearch:7.6.2"
 		},
 		{
 			"name": "embedded.container.elasticsearch.http-port",
 			"description": "Http-Port",
 			"type": "java.lang.Integer",
-			"defaultValue": "5672"
+			"defaultValue": "9200"
 		},
 		{
 			"name": "embedded.container.elasticsearch.transport-port",
 			"description": "Transport-Port",
 			"type": "java.lang.Integer",
-			"defaultValue": "15672"
+			"defaultValue": "9300"
 		}
 	]
 }

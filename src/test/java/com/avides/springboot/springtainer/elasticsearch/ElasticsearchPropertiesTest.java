@@ -13,7 +13,7 @@ public class ElasticsearchPropertiesTest
         ElasticsearchProperties properties = new ElasticsearchProperties();
         assertTrue(properties.isEnabled());
         assertEquals(30, properties.getStartupTimeout());
-        assertEquals("docker.elastic.co/elasticsearch/elasticsearch:6.8.4", properties.getDockerImage());
+        assertEquals("docker.elastic.co/elasticsearch/elasticsearch:7.6.2", properties.getDockerImage());
 
         assertEquals(9200, properties.getHttpPort());
         assertEquals(9300, properties.getTransportPort());

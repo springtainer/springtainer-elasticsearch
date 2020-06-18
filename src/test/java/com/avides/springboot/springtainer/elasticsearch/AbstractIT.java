@@ -1,10 +1,17 @@
 package com.avides.springboot.springtainer.elasticsearch;
 
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -13,7 +20,7 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DockerClientBuilder;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = { "spring.data.elasticsearch.cluster-nodes=${embedded.container.elasticsearch.host}:${embedded.container.elasticsearch.transport-port}", "spring.data.elasticsearch.properties.client.transport.ignore_cluster_name=true" })
+@SpringBootTest(classes = AbstractIT.EsConfiguration.class)
 @DirtiesContext
 public abstract class AbstractIT
 {
@@ -23,11 +30,31 @@ public abstract class AbstractIT
     protected ConfigurableEnvironment environment;
 
     @Autowired
-    protected ElasticsearchTemplate elasticsearchTemplate;
+    protected ElasticsearchRestTemplate elasticsearchRestTemplate;
 
-    protected void index(IndexQuery indexQuery)
+    protected void index(IndexQuery indexQuery, IndexCoordinates indexCoordinates)
     {
-        elasticsearchTemplate.index(indexQuery);
-        elasticsearchTemplate.refresh(indexQuery.getObject().getClass());
+        elasticsearchRestTemplate.index(indexQuery, indexCoordinates);
+        elasticsearchRestTemplate.indexOps(indexCoordinates).refresh();
+    }
+
+    @Configuration
+    public static class EsConfiguration
+    {
+        @Value("${embedded.container.elasticsearch.host}")
+        private String host;
+
+        @Value("${embedded.container.elasticsearch.http-port}")
+        private int port;
+
+        @SuppressWarnings("resource")
+        @Bean
+        public ElasticsearchRestTemplate elasticsearchRestTemplate()
+        {
+            var builder = RestClient.builder(new HttpHost(host, port));
+            var client = new RestHighLevelClient(builder);
+
+            return new ElasticsearchRestTemplate(client);
+        }
     }
 }
