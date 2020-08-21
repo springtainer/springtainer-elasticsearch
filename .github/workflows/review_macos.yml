@@ -1,4 +1,4 @@
-name: review
+name: review-macos
 
 on:
   pull_request:
