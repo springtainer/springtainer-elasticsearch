@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  review:
+  review-macos:
     timeout-minutes: 30
 
     runs-on: macos-latest
