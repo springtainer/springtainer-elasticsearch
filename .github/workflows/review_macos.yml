@@ -42,22 +42,5 @@ jobs:
       - name: integration-tests
         run: mvn -DskipUTs -Dgpg.skip=true jacoco:restore-instrumented-classes verify
 
-      - name: sonar-analyse
-        env:
-          SONAR_HOST: ${{ secrets.OS_SONAR_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.OS_SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          export SONAR_ORGANIZATION=$(echo ${GITHUB_REPOSITORY} | cut -d / -f 1)
-          mvn sonar:sonar \
-            -Dsonar.host.url=${SONAR_HOST} \
-            -Dsonar.login=${SONAR_TOKEN} \
-            -Dsonar.organization=${SONAR_ORGANIZATION} \
-            -Dsonar.projectKey=${GITHUB_REPOSITORY//\//_} \
-            -Dsonar.pullrequest.key=${{ github.event.number }} \
-            -Dsonar.pullrequest.branch=${{ github.event.pull_request.head.ref }} \
-            -Dsonar.scm.revision=${{ github.event.pull_request.head.sha }} \
-            -Dsonar.java.binaries=./target/classes
-
       - name: pom-analyse
         run: mvn enforcer:enforce
