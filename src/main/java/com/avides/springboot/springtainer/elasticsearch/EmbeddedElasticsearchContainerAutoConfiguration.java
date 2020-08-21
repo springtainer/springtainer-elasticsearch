@@ -63,7 +63,7 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
         {
             Map<String, Object> provided = new HashMap<>();
             provided.put("embedded.container.elasticsearch.host", getContainerHost());
-            provided.put("embedded.container.elasticsearch.http-port", Integer.valueOf(properties.getHttpPort()));
+            provided.put("embedded.container.elasticsearch.http-port", Integer.valueOf(getContainerPort(properties.getHttpPort())));
             provided.put("embedded.container.elasticsearch.transport-port", Integer.valueOf(getContainerPort(properties.getTransportPort())));
             return provided;
         }
