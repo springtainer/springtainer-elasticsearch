@@ -8,36 +8,44 @@
 [![Technical dept](https://sonarcloud.io/api/project_badges/measure?project=springtainer_springtainer-elasticsearch&metric=sqale_index)](https://sonarcloud.io/dashboard?id=springtainer_springtainer-elasticsearch)
 
 ### Dependency
+
 ```xml
+
 <dependency>
-	<groupId>com.avides.springboot.springtainer</groupId>
-	<artifactId>springtainer-elasticsearch</artifactId>
-	<version>1.2.1</version>
-	<scope>test</scope>
+  <groupId>com.avides.springboot.springtainer</groupId>
+  <artifactId>springtainer-elasticsearch</artifactId>
+  <version>1.3.0</version>
+  <scope>test</scope>
 </dependency>
 ```
 
 ### Configuration
+
 Properties consumed (in `bootstrap.properties`):
+
 - `embedded.container.elasticsearch.enabled` (default is `true`)
 - `embedded.container.elasticsearch.startup-timeout` (default is `30`)
-- `embedded.container.elasticsearch.docker-image` (default is `docker.elastic.co/elasticsearch/elasticsearch:7.6.2`)
+- `embedded.container.elasticsearch.docker-image` (default is `docker.elastic.co/elasticsearch/elasticsearch:7.17.0`)
 - `embedded.container.elasticsearch.http-port` (default is `9200`)
 - `embedded.container.elasticsearch.transport-host` (default is `9300`)
 
 Properties provided (in `application-it.properties`):
+
 - `embedded.container.elasticsearch.host`
 - `embedded.container.elasticsearch.http-port`
 - `embedded.container.elasticsearch.transport-port`
 
 Example for minimal configuration in `application-it.properties`:
+
 ```
 spring.data.elasticsearch.cluster-nodes=${embedded.container.elasticsearch.host}:${embedded.container.elasticsearch.transport-port}
 spring.data.elasticsearch.properties.client.transport.ignore_cluster_name=true
 ```
 
 ## Logging
+
 To reduce logging insert this into the logback-configuration:
+
 ```xml
 <!-- Springtainer -->
 <logger name="com.github.dockerjava.jaxrs" level="WARN" />
@@ -46,7 +54,9 @@ To reduce logging insert this into the logback-configuration:
 ```
 
 ## Labels
+
 The container exports multiple labels to analyze running springtainers:
+
 - `SPRINGTAINER_SERVICE=elasticsearch`
 - `SPRINGTAINER_IMAGE=${embedded.container.elasticsearch.docker-image}`
 - `SPRINGTAINER_STARTED=$currentTimestamp`

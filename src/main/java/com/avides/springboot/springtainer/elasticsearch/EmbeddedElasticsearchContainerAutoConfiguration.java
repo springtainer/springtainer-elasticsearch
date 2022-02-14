@@ -37,7 +37,7 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
         return new ElasticsearchContainer("elasticsearch", environment, properties);
     }
 
-    public class ElasticsearchContainer extends AbstractBuildingEmbeddedContainer<ElasticsearchProperties>
+    public static class ElasticsearchContainer extends AbstractBuildingEmbeddedContainer<ElasticsearchProperties>
     {
         public ElasticsearchContainer(String service, ConfigurableEnvironment environment, ElasticsearchProperties properties)
         {
