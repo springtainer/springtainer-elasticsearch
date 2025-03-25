@@ -9,7 +9,7 @@ on:
 jobs:
   review:
     timeout-minutes: 30
-
+    
     runs-on: ubuntu-latest
 
     concurrency:
@@ -35,6 +35,14 @@ jobs:
       # Execute some necessary git commands to get more repository informations
       - name: post-checkout
         run: git fetch --prune --unshallow
+
+      # Update GitHub Action configuration if necessary
+      - name: action-configuration-autoupdate
+        uses: avides/actions-action-configuration-autoupdate@v2
+        with:
+          token: ${{ secrets.GPR_TOKEN }}
+          actions-configuration-files: os-java-library/nightly.yml,os-java-library/release.yml,os-java-library/review.yml
+          source-repository: ${{ secrets.ACTIONS_CONFIG_AUTOUPDATE_REPO }}
 
       # Push updated GitHub Actions configuration if necessary
       - uses: stefanzweifel/git-auto-commit-action@v5
