@@ -19,9 +19,10 @@ jobs:
     steps:
       # Setup java environment
       - name: setup-java
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v4
         with:
-          java-version: 11
+          distribution: temurin
+          java-version: 17
           server-id: ossrh
           server-username: OSSRH_USERNAME
           server-password: OSSRH_PASSWORD
@@ -38,7 +39,7 @@ jobs:
 
       # Checkout the git repository
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GPR_TOKEN }}
@@ -50,7 +51,7 @@ jobs:
 
       # Setup GitHub Actions caching for external dependencies, in this case especially for Maven
       - name: caching
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -71,7 +72,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.OS_SONAR_TOKEN }}
         run: |
           export SONAR_ORGANIZATION=$(echo ${GITHUB_REPOSITORY} | cut -d / -f 1)
-          mvn sonar:sonar \
+          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar \
             -Dsonar.host.url=${SONAR_HOST} \
             -Dsonar.login=${SONAR_TOKEN} \
             -Dsonar.organization=${SONAR_ORGANIZATION} \
@@ -81,7 +82,7 @@ jobs:
       # Get the current project version from POM
       - name: get-project-version
         id: get_project_version
-        uses: avides/actions-project-version-check@v1
+        uses: avides/actions-project-version-check@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           file-to-check: pom.xml
@@ -93,19 +94,16 @@ jobs:
         env:
           PROJECT_VERSION: ${{ steps.get_project_version.outputs.version }}
         run: |
-          echo ::set-output name=gitcommitmessage::$(git log --no-merges -1 --oneline)
+          echo "gitcommitmessage=$(git log --no-merges -1 --oneline)" >> $GITHUB_OUTPUT
           if [[ "$PROJECT_VERSION" == *"SNAPSHOT"* || "$PROJECT_VERSION" == *"RC"* ]]; then
-            echo ::set-output name=isprerelease::true
+            echo "isprerelease=true" >> $GITHUB_OUTPUT
           fi
 
       # Create and publish GitHub Release tag
       - name: github-release
-        uses: actions/create-release@v1
-        continue-on-error: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GPR_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
+          token: ${{ secrets.GPR_TOKEN }}
           tag_name: ${{ steps.get_project_version.outputs.version }}
-          release_name: ${{ steps.get_project_version.outputs.version }}
           body: ${{ steps.setup_github_release.outputs.gitcommitmessage }}
           prerelease: ${{ steps.setup_github_release.outputs.isprerelease }}

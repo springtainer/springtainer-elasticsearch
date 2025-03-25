@@ -50,7 +50,6 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
             List<String> envs = new ArrayList<>();
             envs.add("discovery.type=single-node");
             envs.add("xpack.security.enabled=false");
-            envs.add("xpack.monitoring.enabled=false");
             envs.add("xpack.ml.enabled=false");
             envs.add("xpack.graph.enabled=false");
             envs.add("xpack.watcher.enabled=false");
