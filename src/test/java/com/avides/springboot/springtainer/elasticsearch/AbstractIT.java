@@ -15,6 +15,7 @@ import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.ReflectionUtils;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DockerClientBuilder;
@@ -53,7 +54,14 @@ public abstract class AbstractIT
         {
             var builder = RestClient.builder(new HttpHost(host, port));
             var client = new RestHighLevelClient(builder);
-
+            ReflectionUtils.doWithFields(RestHighLevelClient.class, field ->
+            {
+                if (field.getName().equals("useAPICompatibility"))
+                {
+                    ReflectionUtils.makeAccessible(field);
+                    field.setBoolean(client, true);
+                }
+            });
             return new ElasticsearchRestTemplate(client);
         }
     }
