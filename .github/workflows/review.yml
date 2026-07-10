@@ -132,7 +132,7 @@ jobs:
             -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref }} \
             -Dsonar.scm.revision=${{ github.event.pull_request.head.sha }} \
             -Dsonar.organization=${SONAR_ORGANIZATION} \
-            -Dsonar.projectKey=${GITHUB_REPOSITORY//\//_}
+            -Dsonar.projectKey=springtainer_springtainer-elasticsearch
 
       # Execute Maven enforcer plugin
       - name: pom-analyse
