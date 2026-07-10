@@ -25,22 +25,22 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      # Update GitHub Action configuration if necessary
-      - name: action-configuration-autoupdate
-        uses: avides/actions-action-configuration-autoupdate@v2
-        with:
-          token: ${{ secrets.GPR_TOKEN }}
-          actions-configuration-files: os-java-library/nightly.yml,os-java-library/release.yml,os-java-library/review.yml
-          source-repository: ${{ secrets.ACTIONS_CONFIG_AUTOUPDATE_REPO }}
-
-      # Push updated GitHub Actions configuration if necessary
-      - uses: stefanzweifel/git-auto-commit-action@v7
-        with:
-          file_pattern: .github/workflows/*.yml
-          commit_user_name: ${{ secrets.ACTIONS_CONFIG_AUTOUPDATE_USER }}
-          commit_user_email: ${{ secrets.ACTIONS_CONFIG_AUTOUPDATE_EMAIL }}
-          commit_author: ${{ secrets.ACTIONS_CONFIG_AUTOUPDATE_AUTHOR }}
-          commit_message: Update GitHub Action configuration
+#      # Update GitHub Action configuration if necessary
+#      - name: action-configuration-autoupdate
+#        uses: avides/actions-action-configuration-autoupdate@v2
+#        with:
+#          token: ${{ secrets.GPR_TOKEN }}
+#          actions-configuration-files: os-java-library/nightly.yml,os-java-library/release.yml,os-java-library/review.yml
+#          source-repository: ${{ secrets.ACTIONS_CONFIG_AUTOUPDATE_REPO }}
+#
+#      # Push updated GitHub Actions configuration if necessary
+#      - uses: stefanzweifel/git-auto-commit-action@v7
+#        with:
+#          file_pattern: .github/workflows/*.yml
+#          commit_user_name: ${{ secrets.ACTIONS_CONFIG_AUTOUPDATE_USER }}
+#          commit_user_email: ${{ secrets.ACTIONS_CONFIG_AUTOUPDATE_EMAIL }}
+#          commit_author: ${{ secrets.ACTIONS_CONFIG_AUTOUPDATE_AUTHOR }}
+#          commit_message: Update GitHub Action configuration
 
       # Verify project version is updated
       - name: project-version-check
@@ -126,7 +126,7 @@ jobs:
           export SONAR_ORGANIZATION=$(echo ${GITHUB_REPOSITORY} | cut -d / -f 1)
           mvn org.sonarsource.scanner.maven:sonar-maven-plugin:5.5.0.6356:sonar \
             -Dsonar.host.url=${{ secrets.OS_SONAR_HOST_URL }} \
-            -Dsonar.token=${{ secrets.OS_SONAR_TOKEN }} \
+            -Dsonar.token=${{ secrets.OS_SONAR_TOKEN2 }} \
             -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} \
             -Dsonar.pullrequest.branch=${{ github.event.pull_request.head.ref }} \
             -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref }} \
