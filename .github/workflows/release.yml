@@ -115,4 +115,3 @@ jobs:
           tag_name: ${{ steps.get_project_version.outputs.version }}
           body: ${{ steps.setup_github_release.outputs.gitcommitmessage }}
           prerelease: ${{ steps.setup_github_release.outputs.isprerelease }}
-          files: target/*.jar
