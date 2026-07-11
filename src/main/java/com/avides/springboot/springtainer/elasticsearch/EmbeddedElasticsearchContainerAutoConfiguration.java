@@ -57,7 +57,10 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
             envs.add("xpack.ml.enabled=false");
             envs.add("xpack.graph.enabled=false");
             envs.add("xpack.watcher.enabled=false");
-            envs.add("ES_JAVA_OPTS=-Xms750m -Xmx750m");
+            // -XX:+UseSerialGC is intentionally NOT set here: Elasticsearch's own default config/jvm.options already hardcodes
+            // -XX:+UseG1GC, and combining both fatally crashes the JVM at startup with "Multiple garbage collectors selected"
+            // (verified via a direct `docker run` against this exact image/tag)
+            envs.add("ES_JAVA_OPTS=-Xms750m -Xmx750m -XX:TieredStopAtLevel=1");
             return envs;
         }
 
