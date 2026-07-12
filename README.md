@@ -14,7 +14,7 @@
 <dependency>
   <groupId>com.avides.springboot.springtainer</groupId>
   <artifactId>springtainer-elasticsearch</artifactId>
-  <version>2.0.1</version>
+  <version>3.0.10</version>
   <scope>test</scope>
 </dependency>
 ```

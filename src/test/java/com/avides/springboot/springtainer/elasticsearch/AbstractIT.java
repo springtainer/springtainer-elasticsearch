@@ -17,8 +17,8 @@ import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.github.dockerjava.api.DockerClient;
 import com.avides.springboot.springtainer.common.util.DockerClients;
+import com.github.dockerjava.api.DockerClient;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AbstractIT.EsConfiguration.class)

@@ -57,9 +57,7 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
             envs.add("xpack.ml.enabled=false");
             envs.add("xpack.graph.enabled=false");
             envs.add("xpack.watcher.enabled=false");
-            // -XX:+UseSerialGC is intentionally NOT set here: Elasticsearch's own default config/jvm.options already hardcodes
-            // -XX:+UseG1GC, and combining both fatally crashes the JVM at startup with "Multiple garbage collectors selected"
-            // (verified via a direct `docker run` against this exact image/tag)
+            // -XX:+UseSerialGC deliberately not set: ES's own jvm.options already hardcodes -XX:+UseG1GC, and combining both crashes the JVM ("Multiple garbage collectors selected")
             envs.add("ES_JAVA_OPTS=-Xms750m -Xmx750m -XX:TieredStopAtLevel=1");
             return envs;
         }
@@ -78,8 +76,7 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
         @Override
         protected boolean isContainerReady(ElasticsearchProperties properties)
         {
-            // The low-level RestClient is still used here, but only as the transport underneath
-            // the new co.elastic.clients Java API client (RestHighLevelClient is gone in ES 8.x)
+            // RestClient is only the transport underneath the co.elastic.clients API client now that RestHighLevelClient is gone (ES 8.x)
             try (var restClient = RestClient.builder(new HttpHost(getContainerHost(), getContainerPort(properties.getHttpPort()))).build())
             {
                 var transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
