@@ -60,13 +60,13 @@
     <slf4j-api.version>2.0.18</slf4j-api.version>
     <!-- Other -->
     <spring-data-elasticsearch.version>5.5.13</spring-data-elasticsearch.version>
-    <elasticsearch-client.version>8.18.8</elasticsearch-client.version>
+    <elasticsearch-java.version>8.18.8</elasticsearch-java.version>
     <jackson-core.version>2.21.4</jackson-core.version>
     <jackson-databind.version>2.21.4</jackson-databind.version>
     <!-- Testing -->
-    <spring.version>6.2.19</spring.version>
+    <spring-test.version>6.2.19</spring-test.version>
     <assertj-core.version>3.27.7</assertj-core.version>
-    <junit-jupiter.version>5.12.2</junit-jupiter.version>
+    <junit-jupiter-engine.version>5.12.2</junit-jupiter-engine.version>
     <jacoco.version>0.8.15</jacoco.version>
     <logback-classic.version>1.5.34</logback-classic.version>
   </properties>
@@ -117,7 +117,7 @@
     <dependency>
       <groupId>co.elastic.clients</groupId>
       <artifactId>elasticsearch-java</artifactId>
-      <version>${elasticsearch-client.version}</version>
+      <version>${elasticsearch-java.version}</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -149,7 +149,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit-jupiter.version}</version>
+      <version>${junit-jupiter-engine.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -162,7 +162,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>${spring.version}</version>
+      <version>${spring-test.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
