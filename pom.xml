@@ -56,26 +56,31 @@
     <spring-boot.version>3.5.16</spring-boot.version>
     <springtainer-common.version>2.1.2</springtainer-common.version>
     <lombok.version>1.18.46</lombok.version>
-    <slf4j-api.version>2.0.18</slf4j-api.version>
     <!-- Other -->
-    <spring-data-elasticsearch.version>5.5.13</spring-data-elasticsearch.version>
-    <elasticsearch-java.version>8.18.8</elasticsearch-java.version>
-    <jackson-core.version>2.21.4</jackson-core.version>
-    <jackson-databind.version>2.21.4</jackson-databind.version>
     <!-- Testing -->
-    <assertj-core.version>3.27.7</assertj-core.version>
-    <junit-jupiter-engine.version>5.12.2</junit-jupiter-engine.version>
     <jacoco.version>0.8.15</jacoco.version>
-    <spring-test.version>6.2.19</spring-test.version>
-    <logback-classic.version>1.5.34</logback-classic.version>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Respect Spring Boot's dependency management: all BOM-managed versions
+           (spring-*, junit, mockito, byte-buddy, assertj, logback, slf4j, httpclient5, ...)
+           are inherited from here instead of being pinned individually. -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <!-- Common -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
-      <version>${spring-boot.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -92,7 +97,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${slf4j-api.version}</version>
       <scope>provided</scope>
     </dependency>
     
@@ -100,7 +104,6 @@
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-elasticsearch</artifactId>
-      <version>${spring-data-elasticsearch.version}</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -116,7 +119,6 @@
     <dependency>
       <groupId>co.elastic.clients</groupId>
       <artifactId>elasticsearch-java</artifactId>
-      <version>${elasticsearch-java.version}</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -128,13 +130,11 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>${jackson-core.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>${jackson-databind.version}</version>
       <scope>provided</scope>
     </dependency>
 
@@ -142,13 +142,11 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>${assertj-core.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit-jupiter-engine.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -161,19 +159,16 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>${spring-test.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-test</artifactId>
-      <version>${spring-boot.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>${logback-classic.version}</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
