@@ -1,11 +1,10 @@
 # springtainer-elasticsearch
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.avides.springboot.springtainer/springtainer-elasticsearch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.avides.springboot.springtainer/springtainer-elasticsearch)
-[![Build](https://github.com/springtainer/springtainer-elasticsearch/workflows/release/badge.svg)](https://github.com/springtainer/springtainer-elasticsearch/actions)
-[![Nightly build](https://github.com/springtainer/springtainer-elasticsearch/workflows/nightly/badge.svg)](https://github.com/springtainer/springtainer-elasticsearch/actions)
-[![Coverage report](https://sonarcloud.io/api/project_badges/measure?project=springtainer_springtainer-elasticsearch&metric=coverage)](https://sonarcloud.io/dashboard?id=springtainer_springtainer-elasticsearch)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=springtainer_springtainer-elasticsearch&metric=alert_status)](https://sonarcloud.io/dashboard?id=springtainer_springtainer-elasticsearch)
-[![Technical dept](https://sonarcloud.io/api/project_badges/measure?project=springtainer_springtainer-elasticsearch&metric=sqale_index)](https://sonarcloud.io/dashboard?id=springtainer_springtainer-elasticsearch)
+[![Maven Central](https://img.shields.io/maven-central/v/com.avides.springboot.springtainer/springtainer-elasticsearch.svg?label=maven-central)](https://search.maven.org/artifact/com.avides.springboot.springtainer/springtainer-elasticsearch)
+[![Release](https://github.com/springtainer/springtainer-elasticsearch/actions/workflows/release.yml/badge.svg)](https://github.com/springtainer/springtainer-elasticsearch/actions/workflows/release.yml)
+[![Nightly build](https://github.com/springtainer/springtainer-elasticsearch/actions/workflows/nightly.yml/badge.svg)](https://github.com/springtainer/springtainer-elasticsearch/actions/workflows/nightly.yml)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=springtainer_springtainer-elasticsearch&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=springtainer_springtainer-elasticsearch)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=springtainer_springtainer-elasticsearch&metric=coverage)](https://sonarcloud.io/summary/new_code?id=springtainer_springtainer-elasticsearch)
 
 ### Dependency
 
