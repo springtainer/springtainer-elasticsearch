@@ -9,11 +9,10 @@
 ### Dependency
 
 ```xml
-
 <dependency>
   <groupId>com.avides.springboot.springtainer</groupId>
   <artifactId>springtainer-elasticsearch</artifactId>
-  <version>3.0.0-RC1</version>
+  <version>3.0.0-RC2</version>
   <scope>test</scope>
 </dependency>
 ```
@@ -24,7 +23,7 @@ Properties consumed (in `bootstrap.properties`):
 
 - `embedded.container.elasticsearch.enabled` (default is `true`)
 - `embedded.container.elasticsearch.startup-timeout` (default is `30`)
-- `embedded.container.elasticsearch.docker-image` (default is `docker.elastic.co/elasticsearch/elasticsearch:8.17.3`)
+- `embedded.container.elasticsearch.docker-image` (default is `docker.elastic.co/elasticsearch/elasticsearch:8.19.18`)
 - `embedded.container.elasticsearch.http-port` (default is `9200`)
 - `embedded.container.elasticsearch.transport-host` (default is `9300`)
 
@@ -41,15 +40,25 @@ spring.data.elasticsearch.cluster-nodes=${embedded.container.elasticsearch.host}
 spring.data.elasticsearch.properties.client.transport.ignore_cluster_name=true
 ```
 
+## Spring's test-context cache is bounded automatically
+
+`spring.test.context.cache.maxSize=1` ships as a classpath `spring.properties`
+resource inside springtainer-common itself, so it's picked up automatically for every consumer - no configuration
+needed on your side. This bounds Spring's test-context cache so a no-longer-current context (and, via its
+`ContextClosedEvent` listener, its embedded container) gets evicted and cleanly closed as soon as a differently-configured
+context needs the slot, instead of piling up unclosed until the whole JVM exits.
+
+This works the same way whether tests are launched via Maven Surefire/Failsafe or directly from an IDE's own test
+runner (e.g. Eclipse), since Spring resolves it from the classpath (`org.springframework.core.SpringProperties`) rather
+than from a JVM system property.
+
 ## Logging
 
 To reduce logging insert this into the logback-configuration:
 
 ```xml
 <!-- Springtainer -->
-<logger name="com.github.dockerjava.jaxrs" level="WARN" />
-<logger name="com.github.dockerjava.core.command" level="WARN" />
-<logger name="org.apache.http" level="WARN" />
+<logger name="com.github.dockerjava" level="WARN" />
 ```
 
 ## Labels
