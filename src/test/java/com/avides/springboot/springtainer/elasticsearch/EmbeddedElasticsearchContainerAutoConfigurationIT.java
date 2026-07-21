@@ -39,21 +39,21 @@ public class EmbeddedElasticsearchContainerAutoConfigurationIT extends AbstractI
         var indexQuery = new IndexQuery();
         indexQuery.setId("key1");
         indexQuery.setObject(new DummyDocument("key1", "value1"));
-        index(indexQuery, elasticsearchTemplate.getIndexCoordinatesFor(DummyDocument.class));
+        index(indexQuery, elasticsearchOperations.getIndexCoordinatesFor(DummyDocument.class));
 
         // read
-        assertThat(elasticsearchTemplate.get("key1", DummyDocument.class).getValue()).isEqualTo("value1");
+        assertThat(elasticsearchOperations.get("key1", DummyDocument.class).getValue()).isEqualTo("value1");
 
         // update
         var updateQuery = new IndexQuery();
         updateQuery.setId("key1");
         updateQuery.setObject(new DummyDocument("key1", "value2"));
-        index(updateQuery, elasticsearchTemplate.getIndexCoordinatesFor(DummyDocument.class));
-        assertThat(elasticsearchTemplate.get("key1", DummyDocument.class).getValue()).isEqualTo("value2");
+        index(updateQuery, elasticsearchOperations.getIndexCoordinatesFor(DummyDocument.class));
+        assertThat(elasticsearchOperations.get("key1", DummyDocument.class).getValue()).isEqualTo("value2");
 
         // delete
-        elasticsearchTemplate.delete("key1", elasticsearchTemplate.getIndexCoordinatesFor(DummyDocument.class));
-        assertNull(elasticsearchTemplate.get("key1", DummyDocument.class));
+        elasticsearchOperations.delete("key1", elasticsearchOperations.getIndexCoordinatesFor(DummyDocument.class));
+        assertNull(elasticsearchOperations.get("key1", DummyDocument.class));
     }
 
     @Configuration

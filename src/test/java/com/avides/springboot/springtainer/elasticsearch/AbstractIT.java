@@ -31,12 +31,12 @@ public abstract class AbstractIT
     protected ConfigurableEnvironment environment;
 
     @Autowired
-    protected ElasticsearchOperations elasticsearchTemplate;
+    protected ElasticsearchOperations elasticsearchOperations;
 
     protected void index(IndexQuery indexQuery, IndexCoordinates indexCoordinates)
     {
-        elasticsearchTemplate.index(indexQuery, indexCoordinates);
-        elasticsearchTemplate.indexOps(indexCoordinates).refresh();
+        elasticsearchOperations.index(indexQuery, indexCoordinates);
+        elasticsearchOperations.indexOps(indexCoordinates).refresh();
     }
 
     @Configuration
@@ -50,7 +50,7 @@ public abstract class AbstractIT
 
         @SuppressWarnings("resource")
         @Bean
-        public ElasticsearchOperations elasticsearchTemplate()
+        public ElasticsearchOperations elasticsearchOperations()
         {
             var restClient = RestClient.builder(new HttpHost(host, port)).build();
             var client = ElasticsearchClients.createImperative(restClient);
