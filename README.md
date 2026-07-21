@@ -12,7 +12,7 @@
 <dependency>
   <groupId>com.avides.springboot.springtainer</groupId>
   <artifactId>springtainer-elasticsearch</artifactId>
-  <version>3.0.0-RC2</version>
+  <version>3.0.0-RC3</version>
   <scope>test</scope>
 </dependency>
 ```
