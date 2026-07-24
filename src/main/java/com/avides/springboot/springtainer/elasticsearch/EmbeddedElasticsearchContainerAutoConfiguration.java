@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpHost;
-import org.elasticsearch.client.Request;
 import org.elasticsearch.client.RestClient;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -21,6 +20,11 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.avides.springboot.springtainer.common.container.AbstractBuildingEmbeddedContainer;
 import com.avides.springboot.springtainer.common.container.EmbeddedContainer;
+
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.HealthStatus;
+import co.elastic.clients.json.jackson.JacksonJsonpMapper;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
 
 import lombok.SneakyThrows;
 
@@ -53,7 +57,7 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
             envs.add("xpack.ml.enabled=false");
             envs.add("xpack.graph.enabled=false");
             envs.add("xpack.watcher.enabled=false");
-            envs.add("ES_JAVA_OPTS=-Xms750m -Xmx750m");
+            envs.add("ES_JAVA_OPTS=-Xms750m -Xmx750m -XX:TieredStopAtLevel=1");
             return envs;
         }
 
@@ -71,14 +75,12 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
         @Override
         protected boolean isContainerReady(ElasticsearchProperties properties)
         {
-            try
+            try (var restClient = RestClient.builder(new HttpHost(getContainerHost(), getContainerPort(properties.getHttpPort()))).build())
             {
-                var restClient = RestClient.builder(new HttpHost(getContainerHost(), getContainerPort(properties.getHttpPort()))).build();
-
-                var request = new Request("GET", "/");
-                request.addParameter("pretty", "true");
-                restClient.performRequest(request);
-                return true;
+                var transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
+                var client = new ElasticsearchClient(transport);
+                var status = client.cluster().health().status();
+                return status == HealthStatus.Green || status == HealthStatus.Yellow;
             }
             catch (@SuppressWarnings("unused") Exception e)
             {

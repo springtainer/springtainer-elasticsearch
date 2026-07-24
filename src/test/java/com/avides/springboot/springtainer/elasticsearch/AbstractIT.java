@@ -2,41 +2,41 @@ package com.avides.springboot.springtainer.elasticsearch;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchClients;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.ReflectionUtils;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.avides.springboot.springtainer.common.util.DockerClients;
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.core.DockerClientBuilder;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AbstractIT.EsConfiguration.class)
 @DirtiesContext
 public abstract class AbstractIT
 {
-    protected DockerClient dockerClient = DockerClientBuilder.getInstance().build();
+    protected DockerClient dockerClient = DockerClients.build();
 
     @Autowired
     protected ConfigurableEnvironment environment;
 
     @Autowired
-    protected ElasticsearchRestTemplate elasticsearchRestTemplate;
+    protected ElasticsearchOperations elasticsearchOperations;
 
     protected void index(IndexQuery indexQuery, IndexCoordinates indexCoordinates)
     {
-        elasticsearchRestTemplate.index(indexQuery, indexCoordinates);
-        elasticsearchRestTemplate.indexOps(indexCoordinates).refresh();
+        elasticsearchOperations.index(indexQuery, indexCoordinates);
+        elasticsearchOperations.indexOps(indexCoordinates).refresh();
     }
 
     @Configuration
@@ -50,19 +50,11 @@ public abstract class AbstractIT
 
         @SuppressWarnings("resource")
         @Bean
-        public ElasticsearchRestTemplate elasticsearchRestTemplate()
+        public ElasticsearchOperations elasticsearchOperations()
         {
-            var builder = RestClient.builder(new HttpHost(host, port));
-            var client = new RestHighLevelClient(builder);
-            ReflectionUtils.doWithFields(RestHighLevelClient.class, field ->
-            {
-                if (field.getName().equals("useAPICompatibility"))
-                {
-                    ReflectionUtils.makeAccessible(field);
-                    field.setBoolean(client, true);
-                }
-            });
-            return new ElasticsearchRestTemplate(client);
+            var restClient = RestClient.builder(new HttpHost(host, port)).build();
+            var client = ElasticsearchClients.createImperative(restClient);
+            return new ElasticsearchTemplate(client);
         }
     }
 }

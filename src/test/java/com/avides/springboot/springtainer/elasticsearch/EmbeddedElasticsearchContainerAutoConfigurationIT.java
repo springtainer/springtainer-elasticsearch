@@ -1,9 +1,9 @@
 package com.avides.springboot.springtainer.elasticsearch;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.annotation.Id;
@@ -39,21 +39,21 @@ public class EmbeddedElasticsearchContainerAutoConfigurationIT extends AbstractI
         var indexQuery = new IndexQuery();
         indexQuery.setId("key1");
         indexQuery.setObject(new DummyDocument("key1", "value1"));
-        index(indexQuery, elasticsearchRestTemplate.getIndexCoordinatesFor(DummyDocument.class));
+        index(indexQuery, elasticsearchOperations.getIndexCoordinatesFor(DummyDocument.class));
 
         // read
-        assertThat(elasticsearchRestTemplate.get("key1", DummyDocument.class).getValue()).isEqualTo("value1");
+        assertThat(elasticsearchOperations.get("key1", DummyDocument.class).getValue()).isEqualTo("value1");
 
         // update
         var updateQuery = new IndexQuery();
         updateQuery.setId("key1");
         updateQuery.setObject(new DummyDocument("key1", "value2"));
-        index(updateQuery, elasticsearchRestTemplate.getIndexCoordinatesFor(DummyDocument.class));
-        assertThat(elasticsearchRestTemplate.get("key1", DummyDocument.class).getValue()).isEqualTo("value2");
+        index(updateQuery, elasticsearchOperations.getIndexCoordinatesFor(DummyDocument.class));
+        assertThat(elasticsearchOperations.get("key1", DummyDocument.class).getValue()).isEqualTo("value2");
 
         // delete
-        elasticsearchRestTemplate.delete("key1", elasticsearchRestTemplate.getIndexCoordinatesFor(DummyDocument.class));
-        assertNull(elasticsearchRestTemplate.get("key1", DummyDocument.class));
+        elasticsearchOperations.delete("key1", elasticsearchOperations.getIndexCoordinatesFor(DummyDocument.class));
+        assertNull(elasticsearchOperations.get("key1", DummyDocument.class));
     }
 
     @Configuration
