@@ -55,6 +55,9 @@
     <!-- Common -->
     <spring-boot.version>4.1.0</spring-boot.version>
     <springtainer-common.version>3.0.0-RC1</springtainer-common.version>
+    <!-- Held at the 8.x line to match the Elasticsearch 8 servers this container is used against: a 9.x client
+         sends compatible-with=9, which an 8.x server rejects with media_type_header_exception. -->
+    <elasticsearch-client.version>8.19.19</elasticsearch-client.version>
     <lombok.version>1.18.46</lombok.version>
     <!-- Other -->
     <!-- Testing -->
@@ -119,6 +122,7 @@
     <dependency>
       <groupId>co.elastic.clients</groupId>
       <artifactId>elasticsearch-java</artifactId>
+      <version>${elasticsearch-client.version}</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -128,8 +132,9 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>co.elastic.clients</groupId>
-      <artifactId>elasticsearch-rest5-client</artifactId>
+      <groupId>org.elasticsearch.client</groupId>
+      <artifactId>elasticsearch-rest-client</artifactId>
+      <version>${elasticsearch-client.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
