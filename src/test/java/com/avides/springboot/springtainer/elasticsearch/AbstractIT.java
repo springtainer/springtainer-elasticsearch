@@ -2,8 +2,7 @@ package com.avides.springboot.springtainer.elasticsearch;
 
 import java.io.IOException;
 
-import org.apache.http.HttpHost;
-import org.elasticsearch.client.RestClient;
+import org.apache.hc.core5.http.HttpHost;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +18,8 @@ import com.github.dockerjava.api.DockerClient;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.Jackson3JsonpMapper;
-import co.elastic.clients.transport.rest_client.RestClientTransport;
+import co.elastic.clients.transport.rest5_client.Rest5ClientTransport;
+import co.elastic.clients.transport.rest5_client.low_level.Rest5Client;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AbstractIT.EsConfiguration.class)
@@ -69,8 +69,8 @@ public abstract class AbstractIT
         @Bean
         public ElasticsearchClient elasticsearchClient()
         {
-            var restClient = RestClient.builder(new HttpHost(host, port)).build();
-            return new ElasticsearchClient(new RestClientTransport(restClient, new Jackson3JsonpMapper()));
+            var restClient = Rest5Client.builder(new HttpHost(host, port)).build();
+            return new ElasticsearchClient(new Rest5ClientTransport(restClient, new Jackson3JsonpMapper()));
         }
     }
 }
