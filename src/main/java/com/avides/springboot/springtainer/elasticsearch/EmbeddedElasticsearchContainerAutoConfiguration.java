@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpHost;
-import org.elasticsearch.client.RestClient;
+import org.apache.hc.core5.http.HttpHost;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -23,8 +22,9 @@ import com.avides.springboot.springtainer.common.container.EmbeddedContainer;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.HealthStatus;
-import co.elastic.clients.json.jackson.JacksonJsonpMapper;
-import co.elastic.clients.transport.rest_client.RestClientTransport;
+import co.elastic.clients.json.jackson.Jackson3JsonpMapper;
+import co.elastic.clients.transport.rest5_client.Rest5ClientTransport;
+import co.elastic.clients.transport.rest5_client.low_level.Rest5Client;
 
 import lombok.SneakyThrows;
 
@@ -75,9 +75,9 @@ public class EmbeddedElasticsearchContainerAutoConfiguration
         @Override
         protected boolean isContainerReady(ElasticsearchProperties properties)
         {
-            try (var restClient = RestClient.builder(new HttpHost(getContainerHost(), getContainerPort(properties.getHttpPort()))).build())
+            try (var restClient = Rest5Client.builder(new HttpHost(getContainerHost(), getContainerPort(properties.getHttpPort()))).build())
             {
-                var transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
+                var transport = new Rest5ClientTransport(restClient, new Jackson3JsonpMapper());
                 var client = new ElasticsearchClient(transport);
                 var status = client.cluster().health().status();
                 return status == HealthStatus.Green || status == HealthStatus.Yellow;

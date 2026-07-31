@@ -1,7 +1,6 @@
 package com.avides.springboot.springtainer.elasticsearch;
 
-import org.apache.http.HttpHost;
-import org.elasticsearch.client.RestClient;
+import org.apache.hc.core5.http.HttpHost;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.data.elasticsearch.client.elc.ElasticsearchClients;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
@@ -19,6 +17,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.avides.springboot.springtainer.common.util.DockerClients;
 import com.github.dockerjava.api.DockerClient;
+
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.json.jackson.Jackson3JsonpMapper;
+import co.elastic.clients.transport.rest5_client.Rest5ClientTransport;
+import co.elastic.clients.transport.rest5_client.low_level.Rest5Client;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AbstractIT.EsConfiguration.class)
@@ -52,8 +55,8 @@ public abstract class AbstractIT
         @Bean
         public ElasticsearchOperations elasticsearchOperations()
         {
-            var restClient = RestClient.builder(new HttpHost(host, port)).build();
-            var client = ElasticsearchClients.createImperative(restClient);
+            var restClient = Rest5Client.builder(new HttpHost(host, port)).build();
+            var client = new ElasticsearchClient(new Rest5ClientTransport(restClient, new Jackson3JsonpMapper()));
             return new ElasticsearchTemplate(client);
         }
     }
