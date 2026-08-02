@@ -1,14 +1,12 @@
 package com.avides.springboot.springtainer.elasticsearch;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNull;
+
+import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.core.query.IndexQuery;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,27 +31,50 @@ public class EmbeddedElasticsearchContainerAutoConfigurationIT extends AbstractI
     }
 
     @Test
-    public void testCrud()
+    public void testCrud() throws IOException
     {
         // create
-        var indexQuery = new IndexQuery();
-        indexQuery.setId("key1");
-        indexQuery.setObject(new DummyDocument("key1", "value1"));
-        index(indexQuery, elasticsearchOperations.getIndexCoordinatesFor(DummyDocument.class));
-
-        // read
-        assertThat(elasticsearchOperations.get("key1", DummyDocument.class).getValue()).isEqualTo("value1");
+        index("key1", new DummyDocument("key1", "value1"));
+        assertThat(get("key1").getValue()).isEqualTo("value1");
 
         // update
-        var updateQuery = new IndexQuery();
-        updateQuery.setId("key1");
-        updateQuery.setObject(new DummyDocument("key1", "value2"));
-        index(updateQuery, elasticsearchOperations.getIndexCoordinatesFor(DummyDocument.class));
-        assertThat(elasticsearchOperations.get("key1", DummyDocument.class).getValue()).isEqualTo("value2");
+        index("key1", new DummyDocument("key1", "value2"));
+        assertThat(get("key1").getValue()).isEqualTo("value2");
 
         // delete
-        elasticsearchOperations.delete("key1", elasticsearchOperations.getIndexCoordinatesFor(DummyDocument.class));
-        assertNull(elasticsearchOperations.get("key1", DummyDocument.class));
+        delete("key1");
+        assertThat(elasticsearchClient.get(request -> request.index(INDEX).id("key1"), DummyDocument.class).found()).isFalse();
+    }
+
+    /**
+     * Searching exercises query serialization and hit deserialization, which is the part of the client/server
+     * contract most sensitive to a version mismatch between the two. Get-by-id keeps working across such a
+     * mismatch, so it does not cover this on its own.
+     */
+    @Test
+    public void testSearch() throws IOException
+    {
+        index("key1", new DummyDocument("key1", "matching"));
+        index("key2", new DummyDocument("key2", "matching"));
+        index("key3", new DummyDocument("key3", "different"));
+
+        var response = elasticsearchClient.search(
+                request -> request.index(INDEX).query(query -> query.match(match -> match.field("value").query("matching"))),
+                DummyDocument.class);
+
+        assertThat(response.hits().total().value()).isEqualTo(2);
+        assertThat(response.hits().hits())
+                .extracting(hit -> hit.source().getKey())
+                .containsExactlyInAnyOrder("key1", "key2");
+
+        delete("key1");
+        delete("key2");
+        delete("key3");
+    }
+
+    private DummyDocument get(String id) throws IOException
+    {
+        return elasticsearchClient.get(request -> request.index(INDEX).id(id), DummyDocument.class).source();
     }
 
     @Configuration
@@ -63,14 +84,12 @@ public class EmbeddedElasticsearchContainerAutoConfigurationIT extends AbstractI
         // nothing
     }
 
-    @Document(indexName = "test")
     @NoArgsConstructor
     @AllArgsConstructor
     @Setter
     @Getter
     public static class DummyDocument
     {
-        @Id
         private String key;
 
         private String value;
